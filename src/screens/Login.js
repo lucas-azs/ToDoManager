@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import {
-    SafeAreaView, KeyboardAvoidingView, StyleSheet, View, Image, TextInput,
-    Button, Text, SafeAreaView, Alert
+    StyleSheet, KeyboardAvoidingView, View, Image, TextInput, Button, Text,
+    Alert
 } from 'react-native';
-
-
 const img = require('../assets/TodoList.png');
-
 export default class Login extends Component {
+    static navigationOptions = {
+        header: null
+    };
+    state = {
+        email: this.props.email,
+        password: ''
+    };
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -18,29 +22,37 @@ export default class Login extends Component {
                     </View>
                     <View style={styles.bottomView}>
                         <TextInput style={styles.input}
+                            value={this.state.email}
                             placeholder='Email'
                             keyboardType={'email-address'}
-                            autoCapitalize='none' />
+                            autoCapitalize='none'
+                            onChangeText={(text) => this.setState({ email: text })} />
                         <TextInput style={styles.input}
                             placeholder='Password'
-                            secureTextEntry={true} />
-                        <Button title='Sign In' />
+                            secureTextEntry={true}
+                            onChangeText={(text) => this.setState({ password: text })} />
+                        <Button title='Sign In'
+                            onPress={() => Alert.alert(`Email: ${this.state.email}
+\nPassword: ${this.state.password}`)} />
                         <View style={styles.textConteiner}>
                             <Text>Not a member? Let's </Text>
-                            <Text style={styles.textRegister}>
+                            <Text style={styles.textRegister}
+                                onPress={() => {
+                                    const { navigate } = this.props.navigation;
+                                    navigate('pageRegister');
+                                }}>
                                 Register
 </Text>
                         </View>
                     </View>
-                </KeyboardAvoidingView>
-            </SafeAreaView>
+                </KeyboardAvoidingView>.
+</SafeAreaView>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: 'column'
+        flex: 1
     },
     topView: {
         justifyContent: 'center',
