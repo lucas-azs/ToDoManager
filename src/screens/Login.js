@@ -3,7 +3,13 @@ import {
     StyleSheet, KeyboardAvoidingView, View, Image, TextInput, Button, Text,
     Alert
 } from 'react-native';
+import { signInOnFirebaseAsync } from '../services/FirebaseApi';
+import { StackActions, NavigationActions } from 'react-navigation';
+
+
 const img = require('../assets/TodoList.png');
+
+
 export default class Login extends Component {
     static navigationOptions = {
         header: null
@@ -14,7 +20,6 @@ export default class Login extends Component {
     };
     render() {
         return (
-            //apaguei a SafeAreaView daqui e o código funcionou até a pg 64
             <KeyboardAvoidingView style={styles.container}
                 behavior='padding'>
                 <View style={styles.topView}>
@@ -30,8 +35,10 @@ export default class Login extends Component {
                     <TextInput style={styles.input}
                         placeholder='Password'
                         secureTextEntry={true}
-                        onChangeText={(text) => this.setState({ password: text })} />
-                    <Button title='Sign In' onPress={() => Alert.alert(`Email: ${this.state.email} \nPassword: ${this.state.password}`)} />
+                        onChangeText={(text) => this.setState({ password: text })}
+                    />
+                    <Button title='Sign In'
+                        onPress={() => this._signInAsync()} />
                     <View style={styles.textConteiner}>
                         <Text>Not a member? Let's </Text>
                         <Text style={styles.textRegister}
@@ -39,11 +46,27 @@ export default class Login extends Component {
                                 const { navigate } = this.props.navigation;
                                 navigate('pageRegister');
                             }}>
-                            Register</Text>
+                            Register </Text>
                     </View>
                 </View>
             </KeyboardAvoidingView>
         );
+    }
+    async _signInAsync() {
+        try {
+            const user = await signInOnFirebaseAsync(this.state.email,
+                this.state.password);
+            const resetNavigation = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({
+                    routeName:
+                        'pageTasksList'
+                })]
+            });
+            this.props.navigation.dispatch(resetNavigation);
+        } catch (error) {
+            Alert.alert("Login Failed", error.message);
+        }
     }
 }
 const styles = StyleSheet.create({

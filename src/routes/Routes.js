@@ -1,12 +1,33 @@
-import { createAppContainer } from 'react-navigation';
-import { Login, Register } from '../screens/Screens';
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator, createTabNavigator } from 'react-navigation';
+import { Login, Register, ToDoTasks, DoneTasks } from '../screens/Screens';
+import { Platform } from 'react-native';
 
-export default Routes = createAppContainer(createStackNavigator(
+
+const taskListTabNavigator = createTabNavigator({
+    pageToDoTasks: { screen: ToDoTasks, title: 'To Do' },
+    pageDoneTasks: { screen: DoneTasks, title: 'Done' }
+});
+
+
+export default Routes = createStackNavigator(
     {
         pageLogin: { screen: Login },
-        pageRegister: { screen: Register }
-    }, {
-    headerMode: 'screen'
-}
-));
+        pageRegister: { screen: Register },
+        pageTasksList: {
+            screen: taskListTabNavigator,
+            navigationOptions: {
+                ...Platform.select({
+                    ios: {
+                        title: 'Task List'
+                    },
+                    android: {
+                        header: null
+                    }
+                })
+            }
+        }
+    },
+    {
+        headerMode: 'screen'
+    }
+);
