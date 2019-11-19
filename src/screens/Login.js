@@ -14,39 +14,35 @@ export default class Login extends Component {
     };
     render() {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <KeyboardAvoidingView style={styles.container}
-                    behavior='padding'>
-                    <View style={styles.topView}>
-                        <Image style={styles.img} source={img} />
+            //apaguei a SafeAreaView daqui e o código funcionou até a pg 64
+            <KeyboardAvoidingView style={styles.container}
+                behavior='padding'>
+                <View style={styles.topView}>
+                    <Image style={styles.img} source={img} />
+                </View>
+                <View style={styles.bottomView}>
+                    <TextInput style={styles.input}
+                        value={this.state.email}
+                        placeholder='Email'
+                        keyboardType={'email-address'}
+                        autoCapitalize='none'
+                        onChangeText={(text) => this.setState({ email: text })} />
+                    <TextInput style={styles.input}
+                        placeholder='Password'
+                        secureTextEntry={true}
+                        onChangeText={(text) => this.setState({ password: text })} />
+                    <Button title='Sign In' onPress={() => Alert.alert(`Email: ${this.state.email} \nPassword: ${this.state.password}`)} />
+                    <View style={styles.textConteiner}>
+                        <Text>Not a member? Let's </Text>
+                        <Text style={styles.textRegister}
+                            onPress={() => {
+                                const { navigate } = this.props.navigation;
+                                navigate('pageRegister');
+                            }}>
+                            Register</Text>
                     </View>
-                    <View style={styles.bottomView}>
-                        <TextInput style={styles.input}
-                            value={this.state.email}
-                            placeholder='Email'
-                            keyboardType={'email-address'}
-                            autoCapitalize='none'
-                            onChangeText={(text) => this.setState({ email: text })} />
-                        <TextInput style={styles.input}
-                            placeholder='Password'
-                            secureTextEntry={true}
-                            onChangeText={(text) => this.setState({ password: text })} />
-                        <Button title='Sign In'
-                            onPress={() => Alert.alert(`Email: ${this.state.email}
-\nPassword: ${this.state.password}`)} />
-                        <View style={styles.textConteiner}>
-                            <Text>Not a member? Let's </Text>
-                            <Text style={styles.textRegister}
-                                onPress={() => {
-                                    const { navigate } = this.props.navigation;
-                                    navigate('pageRegister');
-                                }}>
-                                Register
-</Text>
-                        </View>
-                    </View>
-                </KeyboardAvoidingView>.
-</SafeAreaView>
+                </View>
+            </KeyboardAvoidingView>
         );
     }
 }

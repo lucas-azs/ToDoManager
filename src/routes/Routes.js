@@ -1,8 +1,6 @@
-import { createAppContainer, createStackNavigator } from 'react-navigation';
-//import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 import { Login, Register } from '../screens/Screens';
-
-//VERIFICAR PORQUE NÃO FUNCIONA
+import { createStackNavigator } from 'react-navigation-stack'
 
 export default Routes = createAppContainer(createStackNavigator(
     {
