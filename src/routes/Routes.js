@@ -1,9 +1,10 @@
-import { createStackNavigator, createTabNavigator } from 'react-navigation';
-import { Login, Register, ToDoTasks, DoneTasks } from '../screens/Screens';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack'
+import { App, Login, Register, ToDoTasks, DoneTasks, Task } from '../screens/Screens';
 import { Platform } from 'react-native';
 
 
-const taskListTabNavigator = createTabNavigator({
+const taskListTabNavigator = createBottomTabNavigator ({
     pageToDoTasks: { screen: ToDoTasks, title: 'To Do' },
     pageDoneTasks: { screen: DoneTasks, title: 'Done' }
 });
@@ -11,6 +12,7 @@ const taskListTabNavigator = createTabNavigator({
 
 export default Routes = createStackNavigator(
     {
+        pageApp: { screen: App },
         pageLogin: { screen: Login },
         pageRegister: { screen: Register },
         pageTasksList: {
@@ -25,7 +27,8 @@ export default Routes = createStackNavigator(
                     }
                 })
             }
-        }
+        },
+        pageTask: { screen: Task }
     },
     {
         headerMode: 'screen'

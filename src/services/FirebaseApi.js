@@ -23,3 +23,32 @@ export const signInOnFirebaseAsync = async (email, password) => {
         .signInWithEmailAndPassword(email, password);
     return user;
 }
+
+export const currentFirebaseUser = () => {
+    return new Promise((resolve, reject) => {
+        var unsubscribe = null;
+        unsubscribe = firebase
+            .auth()
+            .onAuthStateChanged((user) => {
+                resolve(user);
+            }, (error) => {
+                reject(error);
+            }, () => {
+                unsubscribe();
+            });
+    });
+}
+
+export const writeTaskOnFirebaseAsync = async (task) => {
+    const user = await currentFirebaseUser();
+    var tasksReference = firebase
+        .database()
+        .ref(user.uid);
+    const key = tasksReference
+        .child('tasks')
+        .push()
+        .key;
+    return await tasksReference
+        .child(`tasks/${key}`)
+        .update(task);
+}

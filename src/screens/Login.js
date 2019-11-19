@@ -4,7 +4,9 @@ import {
     Alert
 } from 'react-native';
 import { signInOnFirebaseAsync } from '../services/FirebaseApi';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions } from 'react-navigation-stack'
+import { NavigationActions } from 'react-navigation'
+
 
 
 const img = require('../assets/TodoList.png');

@@ -1,53 +1,44 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { currentFirebaseUser } from '../services/FirebaseApi';
+
 
 export default class App extends Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
-      <SafeAreaView ref='main' style={styles.container}>
-        <View ref='first' style={styles.first}>
-          <View style={styles.subView} />
-          <View style={styles.subView} />
-          <View style={styles.subView} />
-        </View>
-        <View ref='second' style={styles.second}>
-          <View style={styles.subView} />
-          <View style={styles.subView} />
-          <View style={styles.subView} />
-        </View>
-      </SafeAreaView>
+      <View style={styles.container}>
+        <ActivityIndicator style={styles.loading} />
+      </View>
     );
   }
+
+  async componentDidMount() {
+    let resetNavigation = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'pageLogin' })]
+    });
+    try {
+      const user = await currentFirebaseUser();
+      if (user) {
+        resetNavigation = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({
+            routeName:
+              'pageTasksList'
+          })]
+        });
+        this.props.navigation.dispatch(resetNavigation);
+      }
+      this.props.navigation.dispatch(resetNavigation);
+    } catch (error) {
+      this.props.navigation.dispatch(resetNavigation);
+    }
+  }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  first: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: flex - start,
-    margin: 40,
-    borderColor: 'red',
-    borderWidth: 1
-  },
-  second: {
-    flex: 2,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: flex - end,
-    margin: 40,
-    borderColor: 'red',
-    borderWidth: 1
-  },
-  subView: {
-    height: 50,
-    width: 50,
-    backgroundColor: 'skyblue'
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -55,12 +46,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  bigBlue: {
-    color: 'blue',
-    fontSize: 50
-  },
-  smallRed: {
-    color: 'red',
-    fontSize: 20
+  loading: {
+    width: 50,
+    height: 50
   }
 });
