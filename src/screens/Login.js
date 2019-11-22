@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { signInOnFirebaseAsync } from '../services/FirebaseApi';
 import { StackActions } from 'react-navigation-stack'
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation-stack'
 
 
 
