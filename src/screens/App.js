@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation-stack';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { currentFirebaseUser } from '../services/FirebaseApi';
 
 
