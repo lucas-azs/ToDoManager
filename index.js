@@ -11,6 +11,7 @@ const wrappedRoutes = () => {
         </SafeAreaView>
     );
 };
+
 AppRegistry.registerComponent(appName, () => {
     initializeFirebaseApi();
     return wrappedRoutes;
